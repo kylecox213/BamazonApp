@@ -1,3 +1,4 @@
+// list of dependencies
 require("dotenv").config();
 var key = require("./keys.js");
 var mysql = require("mysql");
@@ -25,9 +26,12 @@ connection.connect(function (err) {
     start();
 });
 
+// global variable used to add multiple purchases to a total amount due
 let totalPrice = 0;
 
 
+//start function connects with mysql, iterates through the elements in the database, and logs the table
+//order function is then initiated
 function start() {
     connection.query('SELECT item_id, product_name, price FROM products', function (err, res) {
         if (err) throw err;
@@ -38,6 +42,9 @@ function start() {
         order();
     });
 };
+
+//order connects with mysql, initiates inquirer which renders the prompts necessary for users to enter the product
+//that they want to purchase and the number of the product desired
 
 function order() {
     connection.query('SELECT * FROM products', function (err, res) {
@@ -56,6 +63,10 @@ function order() {
 
                 }
             ])
+
+            //function answer will notify user if quantity desired is insufficient or will fulfill the order,
+            //subtract the amount purchased from the stock available, and will notify the user that the order
+            //has been fulfilled
             .then(function (answer) {
 
                 var selectedItem = res[parseInt(answer.choice) - 1];
@@ -87,6 +98,8 @@ function order() {
     })
 };
 
+//another function utilizes inquirer for asking the user if they need to make another purchase and either reinitiates
+//the purchase process or terminates the app
 
 function another() {
     inquirer
