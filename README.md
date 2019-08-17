@@ -1,5 +1,5 @@
 # BamazonApp
-App that replicates an Amazon app
+An application that mocks the Amazon shopping experience. Users will be able to view a table of items available for purchase. Users will be issued propmts that guide them through the Bamazon shopping experience. 
 
 ![](images/bamCust.png)
 
