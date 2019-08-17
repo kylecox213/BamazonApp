@@ -25,7 +25,7 @@ connection.connect(function (err) {
     start();
 });
 
-let totalPrice = 0; 
+let totalPrice = 0;
 
 
 function start() {
@@ -58,9 +58,9 @@ function order() {
             ])
             .then(function (answer) {
 
-                var chosenItem = res[parseInt(answer.choice) - 1];
+                var selectedItem = res[parseInt(answer.choice) - 1];
 
-                if (parseInt(chosenItem.stock_quantity) < parseInt(answer.quantity)) {
+                if (parseInt(selectedItem.stock_quantity) < parseInt(answer.quantity)) {
                     console.log('Insufficent quantity for your purchase order');
                     another();
                 } else {
@@ -69,16 +69,16 @@ function order() {
                         'UPDATE products SET ? WHERE ?',
                         [
                             {
-                                stock_quantity: parseInt(chosenItem.stock_quantity) - parseInt(answer.quantity)
+                                stock_quantity: parseInt(selectedItem.stock_quantity) - parseInt(answer.quantity)
                             },
                             {
-                                item_id: chosenItem.item_id
+                                item_id: selectedItem.item_id
                             }
                         ],
 
                         function (error) {
                             if (error) throw (error);
-                            totalPrice += chosenItem.price
+                            totalPrice += selectedItem.price
                             console.log('\nYour order has been successfully placed' + '\nYour total is: $' + totalPrice * answer.quantity);
                             another();
                         });
